@@ -22,16 +22,12 @@ public class PlayerManager : MonoBehaviour
     private Color originalColor;
     private AnimationClip attackClip;
     private AnimationClip dieClip;
-
     private int health = 3;
-
+    private readonly int maxHealth = 3;
     private bool isKnockback = false;
-
     public BoxCollider2D attackCollider; // Referencia al collider del ataque
     private Vector2 attackDirection; // Dirección en la que se realiza el ataque
-
     private HeartUI heartUI;
-
     public static int damage = 1;
 
     void Start()
@@ -276,4 +272,18 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void GainHealth(int healthGiven)
+    {
+        health += healthGiven;
+        heartUI.UpdateHearts(health);
+    }
+    public int GetCurrentHealth()
+    {
+        return health;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }

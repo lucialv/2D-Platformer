@@ -6,19 +6,17 @@ public class CheckGround : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.CompareTag("Ground"))
         {
             isGrounded = true;
-            Debug.Log("Grounded");
         }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.CompareTag("Ground"))
         {
             isGrounded = false;
-            Debug.Log("Not Grounded");
         }
     }
 }
