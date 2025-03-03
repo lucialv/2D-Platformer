@@ -28,7 +28,9 @@ public class PlayerManager : MonoBehaviour
     public BoxCollider2D attackCollider; // Referencia al collider del ataque
     private Vector2 attackDirection; // Dirección en la que se realiza el ataque
     private HeartUI heartUI;
+    private GameOver gameOver;
     public static int damage = 1;
+    private FinalBossManager finalBossManager;
 
     void Start()
     {
@@ -41,7 +43,11 @@ public class PlayerManager : MonoBehaviour
         attackClip = anim.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Attack");
         dieClip = anim.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Die");
 
+        gameOver = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameOver>();
+
         heartUI = GameObject.FindGameObjectWithTag("HeartUI").GetComponent<HeartUI>();
+
+        finalBossManager = GameObject.FindGameObjectWithTag("FinalBossManager").GetComponent<FinalBossManager>();
 
         attackCollider.enabled = false; // Asegúrate de que esté desactivado al inicio
     }
@@ -234,7 +240,9 @@ public class PlayerManager : MonoBehaviour
         anim.SetTrigger("Die");
         anim.SetBool("isDead", true);
         yield return new WaitForSeconds(dieClip.length);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        gameOver.timesDied++;
+        gameOver.ShowGameOverScreen();
     }
 
     private IEnumerator WaitAndDie(float seconds)
@@ -285,5 +293,16 @@ public class PlayerManager : MonoBehaviour
     public int GetMaxHealth()
     {
         return maxHealth;
+    }
+
+    public void ResetPlayer()
+    {
+        gameObject.SetActive(true);
+        health = maxHealth;
+        heartUI.UpdateHearts(health);
+        isDead = false;
+        FinalBossManager.isFinalBossDead = false;
+        FinalBossManager.isInFinalBoss = false;
+        finalBossManager.RestartFinalBoss();
     }
 }

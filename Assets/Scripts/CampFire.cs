@@ -14,10 +14,14 @@ public class CampFire : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && healingCoroutine == null)
+        if (collision.CompareTag("Player") && healingCoroutine == null && player.GetCurrentHealth() != player.GetMaxHealth() && player.GetCurrentHealth() > 0)
         {
             isPlayerInside = true;
             healingCoroutine = StartCoroutine(HealOverTime());
+        }
+        if (collision.CompareTag("Player"))
+        {
+            CheckpointManager.Instance.UpdateCheckpoint(gameObject);
         }
     }
 

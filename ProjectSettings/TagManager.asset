@@ -11,6 +11,8 @@ TagManager:
   - HeartUI
   - PowerUPManager
   - Ground
+  - GameManager
+  - FinalBossManager
   layers:
   - Default
   - TransparentFX
